@@ -1,0 +1,382 @@
+import random, time
+
+class TicTacToe:
+    def __init__(self):
+        # "board" is a list of 10 strings representing the board (ignore index 0)
+        self.board = [" "]*10
+        self.board[0]="#"
+    
+    def drawBoard(self):
+        # This method prints out the board with current plays adjacent to a board with index.
+        print(' ' + self.board[7] + ' | ' + self.board[8] + ' | ' + self.board[9],' 7 | 8 | 9 ', sep='\t')
+        print('-----------','-----------', sep='\t')
+        print(' ' + self.board[4] + ' | ' + self.board[5] + ' | ' + self.board[6],' 4 | 5 | 6 ', sep='\t')
+        print('-----------','-----------', sep='\t')
+        print(' ' + self.board[1] + ' | ' + self.board[2] + ' | ' + self.board[3],' 1 | 2 | 3 ', sep='\t')
+    
+    def boardFull(self):
+        # This method checks if the board is already full and returns True. Returns false otherwise
+        if " " in self.board:
+            return False
+        else:
+            return True
+
+def cellIsEmpty(self, cell):
+    if cell==0 or cell>9:
+        return False
+        else:
+            return self.board[cell]==" "
+                
+                def assignMove(self, cell,ch):
+                    # assigns the cell of the board to the character ch
+if cell<10 and cell>0:
+    self.board[cell]=ch
+    
+    def whoWon(self):
+        # returns the symbol of the player who won if there is a winner, otherwise it returns an empty string.
+        if self.isWinner("x"):
+            return "x"
+        elif self.isWinner("o"):
+            return "o"
+        else:
+            return ""
+    
+    def isWinner(self, ch):
+        # Given a player's letter, this method returns True if that player has won.
+        return ((self.board[7] == ch and self.board[8] == ch and self.board[9] == ch) or # across the top
+                (self.board[4] == ch and self.board[5] == ch and self.board[6] == ch) or # across the middle
+                (self.board[1] == ch and self.board[2] == ch and self.board[3] == ch) or # across the bottom
+                (self.board[7] == ch and self.board[4] == ch and self.board[1] == ch) or # down the left side
+                (self.board[8] == ch and self.board[5] == ch and self.board[2] == ch) or # down the middle
+                (self.board[9] == ch and self.board[6] == ch and self.board[3] == ch) or # down the right side
+                (self.board[7] == ch and self.board[5] == ch and self.board[3] == ch) or # diagonal
+                (self.board[9] == ch and self.board[5] == ch and self.board[1] == ch)) # diagonal
+    
+    
+    def can_Win(self,cell,ch):
+        #this method checks if the computer can win in the next move or player can win in next move and returns True otherwise it returns False
+        if cell<0 or cell>9: # this validates the cell input is between 1-9
+            return False
+        if self.board[cell]!=' ':# checks if the position is not empty
+            return False
+        copy= [" "]*10 # made a copy of the board to check if the move entered would result in a win
+        for i in range(0,10):
+            copy[i]=self.board[i]
+        
+        copy[cell]=ch# places the letter in the position and returns true if next move is a win
+        return ((copy[7] == ch and copy[8] == ch and copy[9] == ch) or # across the top
+                (copy[4] == ch and copy[5] == ch and copy[6] == ch) or # across the middle
+                (copy[1] == ch and copy[2] == ch and copy[3] == ch) or # across the bottom
+                (copy[7] == ch and copy[4] == ch and copy[1] == ch) or # down the left side
+                (copy[8] == ch and copy[5] == ch and copy[2] == ch) or # down the middle
+                (copy[9] == ch and copy[6] == ch and copy[3] == ch) or # down the right side
+                (copy[7] == ch and copy[5] == ch and copy[3] == ch) or # diagonal
+                (copy[9] == ch and copy[5] == ch and copy[1] == ch)) # diagonal
+
+
+
+
+
+
+
+def game_Type():# this function displays the menu and returns the game type the player wants.
+    print("Welcome to Tic Tac Toe Series\nUser against user "+15*'.'+"1\nUser against dumb computer "+6*'.'+"2\nUser against random computer "+4*'.'+"3\nUser against smart computer"+6*'.'+"4\nRandomly selected game"+11*'.'+"5\nQuit "+28*'.'+"6")
+    game_type=input('Enter your choice ')
+    return game_type
+
+def letter_Assign(players_choice):## this function checks the letter the player choose and assigns the letter to the opponent.It returns both letters in a tuple.
+    if players_choice=='x':
+        opponent_letter= 'o'
+        elif players_choice=='o':
+            opponent_letter= 'x'
+    elif players_choice=='r':
+        players_choice= random.choice('x o'.split())
+            if players_choice=='x':
+                opponent_letter='o'
+        else:
+            opponent_letter='x'
+return(players_choice,opponent_letter)
+
+def next_Turn(ch):# this function checks the letter of the turn and changes it to the next turn
+    if ch == "x":
+        return "o"
+    else:
+        return "x"
+
+
+def dumb_Move(gameboard):# this function return a move sequential from 9 to 1  if the position is empty
+    for i in range(9,0,-1):
+        if gameboard.cellIsEmpty(i):
+            return i
+
+def random_Move(gameboard): # this function returns a move a random number from 1-9 if that position is empty it returns the number
+    move= random.randint(1,9)
+    while not gameboard.cellIsEmpty(move):
+        move= random.randint(1,9)
+    return move
+
+def smart_Move(gameboard,comp_letter):# this function returns the computers move based on the opponents
+    if comp_letter=='x':
+        players_letter='o'
+    else:
+        players_letter='x'
+    
+    for i in range(1,10):
+        if gameboard.can_Win(i,comp_letter):
+            return str(i)
+
+for i in range(1,10):
+    if gameboard.can_Win(i,players_letter):
+        return str(i)
+    
+    if gameboard.cellIsEmpty(5):
+        return "5"
+    corners=''
+    for i in "1 3 7 9".split():
+        if gameboard.cellIsEmpty(int(i)):
+            corners+=i
+    if corners!='':
+        return random.choice(corners)
+
+sides=''
+    for i in "2 4 6 8".split():
+        if gameboard.cellIsEmpty(int(i)):
+            sides+=i
+if sides!='':
+    return random.choice(sides)
+
+
+def main():
+    game_Loop=True
+    while game_Loop:
+        try:
+            menu_option= game_Type()
+            while menu_option not in "1 2 3 4 5 6".split():
+                menu_option=input('Enter your choice ')
+        except:
+            pass
+        if menu_option=='6':#option to quit game
+            game_Loop=False
+        if menu_option =='5':
+            menu_option=random.choice('2 3 4'.split())
+        if menu_option=='1':#option against user
+            game_Board= TicTacToe()
+            try:
+                player_name=input("What is your name ")
+                opponent_name=input("What is the opponents name ")
+                letter_choice="*"
+                while letter_choice not in "x o r".split():
+                    letter_choice=input(player_name+", do you want x or o? Type r if you want me to chose for you. ")
+                    letter_choice=letter_choice.lower()
+            except:
+                pass
+            players_letter,opponent_letter=letter_Assign(letter_choice)
+            if players_letter=='x':
+                turn= players_letter
+            else:
+                turn= opponent_letter
+            game_On= True
+            while game_On:
+                game_Board.drawBoard()
+                    move="0"
+                    while not game_Board.cellIsEmpty(int(move)):
+                        move = "0"
+                        while move not in "1 2 3 4 5 6 7 8 9".split():
+                            if turn==players_letter:
+                                move= input("its "+player_name+" turn. whats your move?")
+                            else:
+                                move= input("its "+opponent_name+" turn. whats your move?")
+                            if not game_Board.cellIsEmpty(int(move)):
+                                print(move +" is not available")
+                                move="0"
+                game_Board.assignMove(int(move),turn)
+                    winner=game_Board.whoWon()
+                    if winner!="":
+                        game_Board.drawBoard()
+                        if winner==players_letter:
+                            print(player_name+" wins. Congrats")
+                        else:
+                            print(opponent_name+" wins. Congrats")
+                        input("Press enter to continue")
+                        game_On= False
+                elif game_Board.boardFull():
+                    game_Board.drawBoard()
+                        print("its a tie")
+                        input("Press enter to continue")
+                        game_On= False
+                    else:
+                        turn=next_Turn(turn)
+if menu_option=='2':#option against dumb computer
+    game_Board= TicTacToe()
+        try:
+            player_name=input("What is your name ")
+                letter_choice="*"
+                while letter_choice not in "x o r".split():
+                    letter_choice=input(player_name+", do you want x or o? Type r if you want me to chose for you. ")
+                    letter_choice=letter_choice.lower()
+        except:
+            pass
+            game_On=True
+            players_letter,comp_letter=letter_Assign(letter_choice)
+            turn= 'x'
+            while game_On:
+                if turn==players_letter:
+                    game_Board.drawBoard()
+                    move="0"
+                    try:
+                        while not game_Board.cellIsEmpty(int(move)):
+                            move = "0"
+                            while move not in "1 2 3 4 5 6 7 8 9".split():
+                                move= input("its "+player_name+" turn. whats your move?")
+                            if not game_Board.cellIsEmpty(int(move)):
+                                print(move+" is not available")
+                                move="0"
+                    except:
+                        pass
+                else:
+                    print("It's the computers turn")
+                    move= dumb_Move(game_Board)
+                    print("The computer choose "+str(move))
+                move=game_Board.assignMove(int(move),turn)
+                winner= game_Board.whoWon()
+                if winner!="":
+                    game_Board.drawBoard()
+                    if turn==players_letter:
+                        print(player_name+"wins. Congrats")
+                    else:
+                        print("Good game Computer wins.")
+                    try:
+                        input("Press enter to continue")
+                        game_On= False
+                    except:
+                        pass
+                elif game_Board.boardFull():
+                    game_Board.drawBoard()
+                    print("its a tie")
+                    try:
+                        input("Press enter to continue")
+                        game_On= False
+                    except:
+                        pass
+                else:
+                    turn=next_Turn(turn)
+                        
+                        if menu_option=='3':#option against random computer
+                            game_Board= TicTacToe()
+try:
+    player_name=input("What is your name ")
+        letter_choice="*"
+            while letter_choice not in "x o r".split():
+                letter_choice=input(player_name+", do you want x or o? Type r if you want me to chose for you. ")
+                    letter_choice=letter_choice.lower()
+            except:
+                pass
+        game_On=True
+            players_letter,comp_letter=letter_Assign(letter_choice)
+            turn= 'x'
+            while game_On:
+                if turn==players_letter:
+                    game_Board.drawBoard()
+                    move="0"
+                    try:
+                        while not game_Board.cellIsEmpty(int(move)):
+                            move = "0"
+                            while move not in "1 2 3 4 5 6 7 8 9".split():
+                                move= input("its "+player_name+" turn. whats your move?")
+                            if not game_Board.cellIsEmpty(int(move)):
+                                print(move +" is not available")
+                                move="0"
+                    except:
+                        pass
+                else:
+                    print("It's the computers turn")
+                    move= random_Move(game_Board)
+                    print("The computer choose "+str(move))
+                move=game_Board.assignMove(int(move),turn)
+                winner= game_Board.whoWon()
+                if winner!="":
+                    game_Board.drawBoard()
+                    if turn==players_letter:
+                        print(player_name+"wins. Congrats")
+                    else:
+                        print("Good game Computer wins.")
+                    try:
+                        input("Press enter to continue")
+                        game_On= False
+                    except:
+                        pass
+                elif game_Board.boardFull():
+                    game_Board.drawBoard()
+                    print("its a tie")
+                    try:
+                        input("Press enter to continue")
+                        game_On= False
+                    except:
+                        pass
+                else:
+                    turn=next_Turn(turn)
+if menu_option=='4': #Option against smart computer
+    game_Board= TicTacToe()
+        try:
+            player_name=input("What is your name ")
+                letter_choice="*"
+                while letter_choice not in "x o r".split():
+                    letter_choice=input(player_name+", do you want x or o? Type r if you want me to chose for you. ")
+                    letter_choice=letter_choice.lower()
+        except:
+            pass
+            game_On=True
+            players_letter,comp_letter=letter_Assign(letter_choice)
+            turn= 'x'
+            while game_On:
+                if turn==players_letter:
+                    game_Board.drawBoard()
+                    try:
+                        move="0"
+                        while not game_Board.cellIsEmpty(int(move)):
+                            move = "0"
+                            while move not in "1 2 3 4 5 6 7 8 9".split():
+                                move= input("its "+player_name+" turn. whats your move?")
+                            if not game_Board.cellIsEmpty(int(move)):
+                                print(move +" is not available")
+                                move="0"
+                    except:
+                        pass
+                else:
+                    print("It's the computers turn")
+                    move= smart_Move(game_Board,comp_letter)
+                    print("The computer choose "+str(move))
+                move=game_Board.assignMove(int(move),turn)
+                winner= game_Board.whoWon()
+                if winner!="":
+                    game_Board.drawBoard()
+                    if turn==players_letter:
+                        print(player_name+"wins. Congrats")
+                    else:
+                        print("Good game Computer wins.")
+                    try:
+                        input("Press enter to continue")
+                        game_On= False
+                    except:
+                        pass
+                elif game_Board.boardFull():
+                    game_Board.drawBoard()
+                    print("its a tie")
+                    try:
+                        input("Press enter to continue")
+                        game_On= False
+                    except:
+                        pass
+                else:
+                    turn=next_Turn(turn)
+
+
+
+
+
+
+
+
+
+
+main()
